@@ -13,6 +13,8 @@ from rsted.pdf import rst2pdf as _rst2pdf
 from flaskext.redis import RedisManager
 from flaskext.helpers import render_html
 
+from landslide.generator import Generator as LandSlide
+
 # handle relative path references by changing to project directory
 run_from = os.path.dirname(os.path.abspath(sys.argv[0]))
 if run_from != os.path.curdir:
@@ -58,10 +60,13 @@ def about():
 @app.route('/srv/rst2html/', methods=['POST', 'GET'])
 def rst2html():
     rst = request.form.get('rst', '')
-    theme = request.form.get('theme')
-    if theme == 'basic':
-        theme = None
-    html = _rst2html(rst, theme=theme)
+    with open('/tmp/presentacion.rst','w') as tmpfile:
+        tmpfile.write(rst)
+    #theme = request.form.get('theme')
+    #if theme == 'basic':
+    #    theme = None
+    g = LandSlide("/tmp/presentacion.rst", embed=True)
+    html = g.render()
     return html
 
 @app.route('/srv/rst2pdf/', methods=['POST'])
