@@ -1,6 +1,4 @@
-Simple online editor for reStructuredText on Flask.
-
-Try it where: http://rst.ninjs.org/
+Simple online editor for landslide rst-based presentations.
 
 Getting setup
 -------------
