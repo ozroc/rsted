@@ -62,11 +62,14 @@ def rst2html():
     rst = request.form.get('rst', '')
     with open('/tmp/presentacion.rst','w') as tmpfile:
         tmpfile.write(rst)
-    #theme = request.form.get('theme')
-    #if theme == 'basic':
-    #    theme = None
-    g = LandSlide("/tmp/presentacion.rst", embed=True)
-    html = g.render()
+    theme = request.form.get('theme')
+    if theme == 'slides':
+        g = LandSlide("/tmp/presentacion.rst", embed=True)
+        html = g.render()
+    else:
+        if theme == 'basic':
+            theme = None
+        html = _rst2html(rst, theme=theme)
     return html
 
 @app.route('/srv/rst2pdf/', methods=['POST'])
